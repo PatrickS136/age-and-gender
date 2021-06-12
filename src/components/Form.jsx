@@ -7,25 +7,27 @@ const Form=()=>{
     const submitHandler=(event)=>{
         event.preventDefault()
         const name=nameRef.current.value.trim()
+        if (name.length<1){
+            return
+        }
         fetch(`https://api.genderize.io?name=${name}`)
         .then(res=>{
             return res.json()
         }).then(results=>{
-            setText(`Your name is : ${name}, you are a ${results["gender"]}`)
+            const genderText=`Your name is : ${name}, you are a ${results["gender"]}`
+            fetch(`https://api.agify.io?name=${name}`)
+            .then(res=>{
+                return res.json()
+            }).then(results=>{
+                setText(()=>{
+                    setText(genderText+` and you are ${results["age"]} years old.`)
+                    nameRef.current.value=""
+                })
+            }).catch(err=>{
+                console.log(err)
+            })
         }).catch(err=>{console.log(err)})
 
-        fetch(`https://api.agify.io?name=${name}`)
-        .then(res=>{
-            return res.json()
-        }).then(results=>{
-            setText(prev=>{
-                console.log(prev)
-                setText(prev+` and you are ${results["age"]} years old.`)
-                nameRef.current.value=""
-            })
-        }).catch(err=>{
-            console.log(err)
-        })
     }
 
     return <div className={classes.form}>
