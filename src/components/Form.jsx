@@ -10,6 +10,7 @@ const Form=()=>{
         if (name.length<1){
             return
         }
+        setText("Loading...")
         fetch(`https://api.genderize.io?name=${name}`)
         .then(res=>{
             return res.json()
