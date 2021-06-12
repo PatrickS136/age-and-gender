@@ -11,7 +11,7 @@ const Form=()=>{
         .then(res=>{
             return res.json()
         }).then(results=>{
-            setText(`Your name is : ${nameRef.current.value}, you are a ${results["gender"]}`)
+            setText(`Your name is : ${name}, you are a ${results["gender"]}`)
         }).catch(err=>{console.log(err)})
 
         fetch(`https://api.agify.io?name=${name}`)
